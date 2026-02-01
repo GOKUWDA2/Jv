@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Be My Valentine? 💘</title>
+  <style>
+    :root{
+      --bg1:#ff5fa2;
+      --bg2:#ff2d55;
+      --card:#ffffffee;
+      --text:#1f1f1f;
+      --yes:#22c55e;
+      --no:#ff4d6d;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      font-family: ui-rounded, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background: radial-gradient(circle at 20% 20%, #fff 0%, #ffd1e6 12%, transparent 30%),
+                  radial-gradient(circle at 80% 0%, #fff 0%, #ffd1e6 12%, transparent 35%),
+                  linear-gradient(135deg, var(--bg1), var(--bg2));
+      overflow:hidden;
+    }
+
+    /* floating hearts */
+    .heart{
+      position:absolute;
+      width:14px;height:14px;
+      transform: rotate(45deg);
+      background: rgba(255,255,255,.95);
+      opacity:.85;
+      animation: floatUp linear forwards;
+      filter: drop-shadow(0 6px 10px rgba(0,0,0,.12));
+      pointer-events:none;
+    }
+    .heart:before,.heart:after{
+      content:"";
+      position:absolute;
+      width:14px;height:14px;
+      border-radius:50%;
+      background: inherit;
+    }
+    .heart:before{ left:-7px; top:0;}
+    .heart:after{ top:-7px; left:0;}
+
+    @keyframes floatUp{
+      from{ transform: translateY(0) rotate(45deg) scale(var(--s)); }
+      to{ transform: translateY(-110vh) rotate(45deg) scale(var(--s)); opacity:0; }
+    }
+
+    .card{
+      width:min(520px, 92vw);
+      background:var(--card);
+      border-radius:24px;
+      padding:28px 22px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+      text-align:center;
+      backdrop-filter: blur(8px);
+      position:relative;
+      z-index:2;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:#ffe6f1;
+      font-weight:700;
+      margin-bottom:14px;
+    }
+
+    h1{
+      margin:8px 0 8px;
+      font-size: clamp(28px, 6vw, 44px);
+      letter-spacing:-0.02em;
+    }
+    p{
+      margin: 0 0 18px;
+      font-size: clamp(14px, 3.5vw, 18px);
+      opacity:.9;
+    }
+
+    .names{
+      font-weight:800;
+      background: linear-gradient(90deg, #ff2d55, #ff7ab6, #ff2d55);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+
+    .btnRow{
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:14px;
+      position:relative;
+      min-height:58px;
+    }
+
+    button{
+      border:0;
+      padding:14px 18px;
+      border-radius:14px;
+      font-size:16px;
+      font-weight:800;
+      cursor:pointer;
+      transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+      box-shadow: 0 12px 22px rgba(0,0,0,.16);
+      user-select:none;
+    }
+
+    button:active{ transform: translateY(1px) scale(.98); }
+
+    #yesBtn{
+      background: var(--yes);
+      color:white;
+    }
+    #yesBtn:hover{ filter: brightness(1.02); transform: translateY(-1px); }
+
+    #noBtn{
+      background: var(--no);
+      color:white;
+      position:relative;
+    }
+
+    .footer{
+      margin-top:18px;
+      font-size:12px;
+      opacity:.75;
+    }
+
+    /* celebration overlay */
+    .overlay{
+      position:absolute;
+      inset:0;
+      display:none;
+      place-items:center;
+      background: rgba(255,255,255,.6);
+      border-radius:24px;
+      animation: pop .25s ease;
+      z-index:3;
+    }
+    @keyframes pop{ from{ transform: scale(.98); opacity:0;} to{ transform: scale(1); opacity:1;} }
+
+    .yesCard{
+      background:white;
+      padding:18px 16px;
+      border-radius:18px;
+      width:min(420px, 86%);
+      box-shadow: 0 20px 50px rgba(0,0,0,.2);
+    }
+    .yesCard h2{
+      margin:0 0 6px;
+      font-size: 26px;
+    }
+    .yesCard p{
+      margin:0 0 12px;
+    }
+    .smallBtn{
+      background:#111827;
+      color:white;
+      padding:12px 14px;
+      border-radius:12px;
+      font-size:14px;
+      box-shadow: 0 12px 18px rgba(0,0,0,.18);
+    }
+
+    .confetti{
+      position:absolute;
+      width:10px;height:14px;
+      top:-20px;
+      border-radius:3px;
+      animation: confettiFall linear forwards;
+      opacity:.9;
+      pointer-events:none;
+    }
+    @keyframes confettiFall{
+      to{ transform: translateY(120vh) rotate(520deg); opacity:1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="card">
+    <div class="badge">💌 Valentine Request</div>
+
+    <h1>Jackie… will you be my Valentine? 💘</h1>
+    <p>
+      Don’t overthink it 😌
+      <br/>Just pick the right one.
+    </p>
+
+    <div class="btnRow" id="btnRow">
+      <button id="yesBtn">Yes 💖</button>
+      <button id="noBtn">No 🙃</button>
+    </div>
+
+    <div class="footer">Made with love. (And a tiny bit of disrespect.)</div>
+
+    <div class="overlay" id="overlay">
+      <div class="yesCard">
+        <h2>😌💘</h2>
+        <p id="yesMessage">Yea that’s what I thought dickhead 💘</p>
+        <button class="smallBtn" id="copyBtn">Copy a cute text</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ---- Customize these (optional) ----
+    const COPY_MESSAGE = "Okayyyyy so you’re my Valentine now 💘😌";
+    // -----------------------------------
+
+    const overlay = document.getElementById("overlay");
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const btnRow = document.getElementById("btnRow");
+    const copyBtn = document.getElementById("copyBtn");
+    const yesMessageEl = document.getElementById("yesMessage");
+
+    // Floating hearts background
+    function spawnHeart(){
+      const h = document.createElement("div");
+      h.className = "heart";
+      const left = Math.random() * 100;
+      const dur = 4 + Math.random() * 5; // 4-9s
+      const scale = 0.7 + Math.random() * 1.6; // 0.7-2.3
+      h.style.left = left + "vw";
+      h.style.bottom = "-20px";
+      h.style.animationDuration = dur + "s";
+      h.style.setProperty("--s", scale);
+      h.style.opacity = (0.35 + Math.random() * 0.55).toFixed(2);
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), dur * 1000 + 200);
+    }
+    setInterval(spawnHeart, 250);
+
+    // Confetti on YES
+    function confettiBurst(){
+      const colors = ["#ff2d55","#ff7ab6","#22c55e","#60a5fa","#f59e0b","#a78bfa"];
+      for(let i=0;i<90;i++){
+        const c = document.createElement("div");
+        c.className = "confetti";
+        c.style.left = Math.random()*100 + "vw";
+        c.style.background = colors[Math.floor(Math.random()*colors.length)];
+        c.style.animationDuration = (2.2 + Math.random()*2.2) + "s";
+        c.style.transform = `rotate(${Math.random()*180}deg)`;
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 5000);
+      }
+    }
+
+    // YES click: show message + heart explosion
+    yesBtn.addEventListener("click", () => {
+      yesMessageEl.textContent = "Yea that’s what I thought dickhead 💘";
+
+      // Heart storm
+      for (let i = 0; i < 220; i++) {
+        spawnHeart();
+      }
+
+      confettiBurst();
+      overlay.style.display = "grid";
+    });
+
+    // The "No" button playfully dodges
+    function dodge(){
+      const rowRect = btnRow.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+
+      const maxX = Math.max(0, rowRect.width - btnRect.width);
+      const maxY = 58;
+
+      const x = Math.random() * maxX;
+      const y = (Math.random() * maxY) - 12;
+
+      noBtn.style.position = "absolute";
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+    }
+
+    // dodge on hover (desktop) and on touchstart (mobile)
+    noBtn.addEventListener("mouseenter", dodge);
+    noBtn.addEventListener("touchstart", (e) => { e.preventDefault(); dodge(); }, {passive:false});
+
+    // Copy message button
+    copyBtn.addEventListener("click", async () => {
+      try{
+        await navigator.clipboard.writeText(COPY_MESSAGE);
+        copyBtn.textContent = "Copied! ✅";
+        setTimeout(() => copyBtn.textContent = "Copy a cute text", 1600);
+      }catch{
+        alert("Couldn’t copy automatically. Here it is:\n\n" + COPY_MESSAGE);
+      }
+    });
+  </script>
+</body>
+</html>
